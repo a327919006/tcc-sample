@@ -1,0 +1,34 @@
+# 运行端口
+server:
+  port: 10082
+
+# dubbo配置
+dubbo:
+  application:
+    name: sample-app
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  consumer:
+    check: false
+
+swagger:
+  print-init: true
+  enabled: true
+  docket:
+    base-package: com.cn.sample.app.controller
+    group-name: tcc-sample
+    path-selectors:
+      exclude-patterns: [/error]
+    api-info:
+      contact:
+        name: ChenNan
+        email: 327919006@qq.com
+        url: https://gitee.com/NuLiing
+      title: tcc-sample
+      description: tcc测试接口文档
+      license: Apache License, Version 2.0
+      license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+      version: 1.0.0
+      terms-of-service-url: https://gitee.com/NuLiing
+    response-message-language: cn

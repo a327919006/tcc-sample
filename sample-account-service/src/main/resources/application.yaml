@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: @profileActive@
+
+
+mybatis:
+  typeAliasesPackage: com.cn.sample.api.model.po
+  mapperLocations: classpath:com/cn/sample/dal/mapper/**/*.xml
+  configuration:
+    cache-enabled: true

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.sample.dal.mapper.AccountBillMapper">
+  <resultMap id="BaseResultMap" type="com.cn.sample.api.model.po.AccountBill">
+    <id column="bill_id" jdbcType="VARCHAR" property="billId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="old_money" jdbcType="DECIMAL" property="oldMoney" />
+    <result column="change_money" jdbcType="DECIMAL" property="changeMoney" />
+    <result column="new_money" jdbcType="DECIMAL" property="newMoney" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bill_id, order_id, old_money, change_money, new_money, status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_bill
+    where bill_id = #{billId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_account_bill
+    where bill_id = #{billId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.sample.api.model.po.AccountBill">
+    insert into t_account_bill (bill_id, order_id, old_money, 
+      change_money, new_money, status, 
+      create_time, update_time)
+    values (#{billId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{oldMoney,jdbcType=DECIMAL}, 
+      #{changeMoney,jdbcType=DECIMAL}, #{newMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.sample.api.model.po.AccountBill">
+    insert into t_account_bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billId != null">
+        bill_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="oldMoney != null">
+        old_money,
+      </if>
+      <if test="changeMoney != null">
+        change_money,
+      </if>
+      <if test="newMoney != null">
+        new_money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billId != null">
+        #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldMoney != null">
+        #{oldMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="changeMoney != null">
+        #{changeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="newMoney != null">
+        #{newMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.sample.api.model.po.AccountBill">
+    update t_account_bill
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldMoney != null">
+        old_money = #{oldMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="changeMoney != null">
+        change_money = #{changeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="newMoney != null">
+        new_money = #{newMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bill_id = #{billId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.sample.api.model.po.AccountBill">
+    update t_account_bill
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      old_money = #{oldMoney,jdbcType=DECIMAL},
+      change_money = #{changeMoney,jdbcType=DECIMAL},
+      new_money = #{newMoney,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where bill_id = #{billId,jdbcType=VARCHAR}
+  </update>
+</mapper>

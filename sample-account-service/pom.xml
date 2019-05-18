@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sample-app</artifactId>
+    <artifactId>sample-account-service</artifactId>
 
     <dependencies>
         <!-- spring boot -->
@@ -17,14 +17,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <!-- configuration -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>io.github.wilson-he</groupId>
-            <artifactId>swagger2-spring-boot-starter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
 
         <!--dubbo-->
@@ -53,19 +57,19 @@
         <!-- modules -->
         <dependency>
             <groupId>com.gitee.nuliing</groupId>
-            <artifactId>sample-service-api</artifactId>
-            <version>${sample-service-api.version}</version>
+            <artifactId>sample-dal</artifactId>
+            <version>${sample-dal.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>sample-app</finalName>
+        <finalName>sample-account-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cn.sample.app.AppApplication</mainClass>
+                    <mainClass>com.cn.sample.account.service.AccountApplication</mainClass>
                     <outputDirectory>../target</outputDirectory>
                 </configuration>
                 <executions>

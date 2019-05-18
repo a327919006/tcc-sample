@@ -1,0 +1,25 @@
+# 开发环境配置
+
+spring:
+  # 数据库连接配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/tcc-sample?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: chennan
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      connection-test-query: SELECT 1
+
+# Dubbo配置
+dubbo:
+  application:
+    name: order-service
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: dubbo
+    port: 20880
+  scan:
+    base-packages: com.cn.sample.order.service.impl
+
