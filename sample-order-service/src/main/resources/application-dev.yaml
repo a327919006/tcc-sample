@@ -22,4 +22,6 @@ dubbo:
     port: 20880
   scan:
     base-packages: com.cn.sample.order.service.impl
+  consumer:
+    check: false
 

@@ -46,6 +46,9 @@
         <!--guava-->
         <guava.version>27.1-jre</guava.version>
 
+        <!--tcc-transaction-->
+        <tcc-transaction.version>1.2.6</tcc-transaction.version>
+
         <!-- plugins -->
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
@@ -166,6 +169,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- tcc-transaction -->
+            <dependency>
+                <groupId>org.mengyun</groupId>
+                <artifactId>tcc-transaction-spring</artifactId>
+                <version>${tcc-transaction.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

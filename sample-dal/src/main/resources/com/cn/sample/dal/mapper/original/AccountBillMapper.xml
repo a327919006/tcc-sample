@@ -3,6 +3,7 @@
 <mapper namespace="com.cn.sample.dal.mapper.AccountBillMapper">
   <resultMap id="BaseResultMap" type="com.cn.sample.api.model.po.AccountBill">
     <id column="bill_id" jdbcType="VARCHAR" property="billId" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="old_money" jdbcType="DECIMAL" property="oldMoney" />
     <result column="change_money" jdbcType="DECIMAL" property="changeMoney" />
@@ -12,7 +13,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    bill_id, order_id, old_money, change_money, new_money, status, create_time, update_time
+    bill_id, account_id, order_id, old_money, change_money, new_money, status, create_time, 
+    update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -25,18 +27,23 @@
     where bill_id = #{billId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.cn.sample.api.model.po.AccountBill">
-    insert into t_account_bill (bill_id, order_id, old_money, 
-      change_money, new_money, status, 
-      create_time, update_time)
-    values (#{billId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{oldMoney,jdbcType=DECIMAL}, 
-      #{changeMoney,jdbcType=DECIMAL}, #{newMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into t_account_bill (bill_id, account_id, order_id, 
+      old_money, change_money, new_money, 
+      status, create_time, update_time
+      )
+    values (#{billId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{oldMoney,jdbcType=DECIMAL}, #{changeMoney,jdbcType=DECIMAL}, #{newMoney,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.cn.sample.api.model.po.AccountBill">
     insert into t_account_bill
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="billId != null">
         bill_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
       </if>
       <if test="orderId != null">
         order_id,
@@ -64,6 +71,9 @@
       <if test="billId != null">
         #{billId,jdbcType=VARCHAR},
       </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
       <if test="orderId != null">
         #{orderId,jdbcType=VARCHAR},
       </if>
@@ -90,6 +100,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cn.sample.api.model.po.AccountBill">
     update t_account_bill
     <set>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
       <if test="orderId != null">
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
@@ -116,7 +129,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cn.sample.api.model.po.AccountBill">
     update t_account_bill
-    set order_id = #{orderId,jdbcType=VARCHAR},
+    set account_id = #{accountId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
       old_money = #{oldMoney,jdbcType=DECIMAL},
       change_money = #{changeMoney,jdbcType=DECIMAL},
       new_money = #{newMoney,jdbcType=DECIMAL},
