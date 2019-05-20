@@ -8,6 +8,8 @@ import com.cn.sample.dal.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
+import org.mengyun.tcctransaction.api.Compensable;
+import org.mengyun.tcctransaction.api.TransactionContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -43,5 +45,31 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderMapper, Order, String
         mapper.updateByPrimaryKeySelective(order);
 
         accountService.addMoneyNormal(order.getAccountId(), orderId, money);
+    }
+
+    @Override
+    @Compensable(confirmMethod = "confirmPaySuccess", cancelMethod = "cancelPaySuccess")
+    public void tryPaySuccess(String orderId, BigDecimal money) {
+        log.info("【订单】tryPaySuccess, orderId={}", orderId);
+        Order order = mapper.selectByPrimaryKey(orderId);
+
+        if (order == null || order.getStatus() != OrderStatusEnum.WAIT.getValue()) {
+            log.info("【订单】该订单已处理, orderId={}", orderId);
+            return;
+        }
+
+        accountService.tryAddMoney(order.getAccountId(), orderId, money);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void confirmPaySuccess(TransactionContext context, String orderId, BigDecimal money) {
+        log.info("【订单】confirmPaySuccess, orderId={}", orderId);
+
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void cancelPaySuccess(TransactionContext context, String orderId, BigDecimal money) {
+        log.info("【订单】cancelPaySuccess, orderId={}", orderId);
+
     }
 }

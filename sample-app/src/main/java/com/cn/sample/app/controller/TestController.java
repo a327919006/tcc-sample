@@ -8,8 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
+import org.mengyun.tcctransaction.api.TransactionContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +36,10 @@ public class TestController {
     private IOrderService orderService;
 
 
-    @ApiOperation("测试TCC")
+    @ApiOperation("测试业务，无TCC")
     @GetMapping
-    public Object sendNotify() {
-        log.info("【test】测试TCC");
+    public Object testNormal() {
+        log.info("【test】测试业务");
 
         BigDecimal money = new BigDecimal(0.98);
         Order order = new Order();
@@ -50,6 +52,30 @@ public class TestController {
         orderService.insertSelective(order);
 
         orderService.paySuccessNormal(order.getOrderId(), money);
+
+        log.info("【test】测试业务成功");
+        Map<String, Object> rsp = new HashMap<>();
+        rsp.put("code", 0);
+        rsp.put("msg", "SUCCESS");
+        return rsp;
+    }
+
+    @ApiOperation("测试TCC")
+    @PostMapping
+    public Object testTcc() {
+        log.info("【test】测试TCC");
+
+        BigDecimal money = new BigDecimal(0.98);
+        Order order = new Order();
+        order.setOrderId(IdUtil.simpleUUID());
+        order.setAccountId("1");
+        order.setMoney(money);
+        order.setStatus(OrderStatusEnum.WAIT.getValue());
+        order.setCreateTime(LocalDateTime.now());
+        order.setUpdateTime(LocalDateTime.now());
+        orderService.insertSelective(order);
+
+        orderService.tryPaySuccess(order.getOrderId(), money);
 
         log.info("【test】测试TCC成功");
         Map<String, Object> rsp = new HashMap<>();

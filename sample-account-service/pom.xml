@@ -54,10 +54,14 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.mengyun</groupId>
             <artifactId>tcc-transaction-spring</artifactId>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>org.mengyun</groupId>
+            <artifactId>tcc-transaction-dubbo</artifactId>
+        </dependency>
 
         <!-- modules -->
         <dependency>
