@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.mengyun.tcctransaction.api.Compensable;
+import org.mengyun.tcctransaction.api.TransactionContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -61,17 +62,17 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account, 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Compensable(confirmMethod = "confirmAddMoney", cancelMethod = "cancelAddMoney")
-    public void tryAddMoney(String accountId, String orderId, BigDecimal money) {
+    public void tryAddMoney(TransactionContext context, String accountId, String orderId, BigDecimal money) {
         log.info("【账户】tryAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void confirmAddMoney(String accountId, String orderId, BigDecimal money) {
+    public void confirmAddMoney(TransactionContext context, String accountId, String orderId, BigDecimal money) {
         log.info("【账户】confirmAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void cancelAddMoney(String accountId, String orderId, BigDecimal money) {
+    public void cancelAddMoney(TransactionContext context, String accountId, String orderId, BigDecimal money) {
         log.info("【账户】cancelAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 }

@@ -58,7 +58,7 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderMapper, Order, String
             return;
         }
 
-        accountService.tryAddMoney(order.getAccountId(), orderId, money);
+        accountService.tryAddMoney(null, order.getAccountId(), orderId, money);
     }
 
     @Transactional(rollbackFor = Exception.class)

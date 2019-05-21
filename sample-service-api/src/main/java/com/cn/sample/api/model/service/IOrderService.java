@@ -1,7 +1,6 @@
 package com.cn.sample.api.model.service;
 
 import com.cn.sample.api.model.po.Order;
-import org.mengyun.tcctransaction.api.Compensable;
 
 import java.math.BigDecimal;
 
@@ -26,6 +25,5 @@ public interface IOrderService extends IBaseService<Order, String> {
      * @param orderId 订单ID
      * @param money   成功支付金额
      */
-    @Compensable
     void tryPaySuccess(String orderId, BigDecimal money);
 }

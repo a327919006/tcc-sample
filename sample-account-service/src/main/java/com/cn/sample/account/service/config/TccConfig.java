@@ -1,10 +1,17 @@
 package com.cn.sample.account.service.config;
 
 import org.apache.dubbo.remoting.TimeoutException;
+import org.mengyun.tcctransaction.recover.TransactionRecovery;
 import org.mengyun.tcctransaction.repository.ZooKeeperTransactionRepository;
+import org.mengyun.tcctransaction.spring.ConfigurableCoordinatorAspect;
+import org.mengyun.tcctransaction.spring.ConfigurableTransactionAspect;
 import org.mengyun.tcctransaction.spring.recover.DefaultRecoverConfig;
+import org.mengyun.tcctransaction.spring.recover.RecoverScheduledJob;
+import org.mengyun.tcctransaction.spring.support.SpringBeanFactory;
+import org.mengyun.tcctransaction.spring.support.SpringTransactionConfigurator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,5 +61,55 @@ public class TccConfig {
         recoverConfig.setCronExpression("0 */1 * * * ?");
         recoverConfig.setDelayCancelExceptions(exceptionSet);
         return recoverConfig;
+    }
+
+    @Bean
+    public RecoverScheduledJob recoverScheduledJob() {
+        RecoverScheduledJob job = new RecoverScheduledJob();
+        job.setTransactionRecovery(transactionRecovery());
+        job.setTransactionConfigurator(transactionConfigurator());
+        job.setScheduler(recoverScheduler().getScheduler());
+        job.init();
+        return job;
+    }
+
+    @Bean
+    public SchedulerFactoryBean recoverScheduler() {
+        return new SchedulerFactoryBean();
+    }
+
+    @Bean
+    public TransactionRecovery transactionRecovery() {
+        TransactionRecovery recovery = new TransactionRecovery();
+        recovery.setTransactionConfigurator(transactionConfigurator());
+        return recovery;
+    }
+
+    @Bean
+    public ConfigurableCoordinatorAspect resourceCoordinatorAspect() {
+        ConfigurableCoordinatorAspect aspect = new ConfigurableCoordinatorAspect();
+        aspect.setTransactionConfigurator(transactionConfigurator());
+        aspect.init();
+        return aspect;
+    }
+
+    @Bean
+    public ConfigurableTransactionAspect compensableTransactionAspect() {
+        ConfigurableTransactionAspect aspect = new ConfigurableTransactionAspect();
+        aspect.setTransactionConfigurator(transactionConfigurator());
+        aspect.init();
+        return aspect;
+    }
+
+    @Bean
+    public SpringBeanFactory springBeanFactory() {
+        return new SpringBeanFactory();
+    }
+
+    @Bean
+    public SpringTransactionConfigurator transactionConfigurator() {
+        SpringTransactionConfigurator configurator = new SpringTransactionConfigurator();
+        configurator.init();
+        return configurator;
     }
 }
