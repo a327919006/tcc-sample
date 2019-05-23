@@ -28,6 +28,9 @@ public interface IAccountService extends IBaseService<Account, String> {
      * @param orderId   订单ID
      * @param money     金额
      */
-    void tryAddMoney(TransactionContext context, String accountId, String orderId, BigDecimal money);
+    void tryAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money);
 
+    void confirmAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money);
+
+    void cancelAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money);
 }

@@ -13,12 +13,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author Chen Nan
  */
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 @MapperScan("com.cn.sample.dal.mapper")
 @ComponentScan(basePackages = {
         "com.cn.sample.dal.mapper",
         "com.cn.sample.order.service.config"
 })
+@ImportResource("classpath:tcc-transaction.xml")
 public class OrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);

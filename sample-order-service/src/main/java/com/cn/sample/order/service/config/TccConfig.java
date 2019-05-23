@@ -63,53 +63,53 @@ public class TccConfig {
         return recoverConfig;
     }
 
-    @Bean
-    public RecoverScheduledJob recoverScheduledJob() {
-        RecoverScheduledJob job = new RecoverScheduledJob();
-        job.setTransactionRecovery(transactionRecovery());
-        job.setTransactionConfigurator(transactionConfigurator());
-        job.setScheduler(recoverScheduler().getScheduler());
-        job.init();
-        return job;
-    }
-
-    @Bean
-    public SchedulerFactoryBean recoverScheduler() {
-        return new SchedulerFactoryBean();
-    }
-
-    @Bean
-    public TransactionRecovery transactionRecovery() {
-        TransactionRecovery recovery = new TransactionRecovery();
-        recovery.setTransactionConfigurator(transactionConfigurator());
-        return recovery;
-    }
-
-    @Bean
-    public ConfigurableCoordinatorAspect resourceCoordinatorAspect() {
-        ConfigurableCoordinatorAspect aspect = new ConfigurableCoordinatorAspect();
-        aspect.setTransactionConfigurator(transactionConfigurator());
-        aspect.init();
-        return aspect;
-    }
-
-    @Bean
-    public ConfigurableTransactionAspect compensableTransactionAspect() {
-        ConfigurableTransactionAspect aspect = new ConfigurableTransactionAspect();
-        aspect.setTransactionConfigurator(transactionConfigurator());
-        aspect.init();
-        return aspect;
-    }
-
-    @Bean
-    public SpringBeanFactory springBeanFactory() {
-        return new SpringBeanFactory();
-    }
-
-    @Bean
-    public SpringTransactionConfigurator transactionConfigurator() {
-        SpringTransactionConfigurator configurator = new SpringTransactionConfigurator();
-        configurator.init();
-        return configurator;
-    }
+//    @Bean
+//    public RecoverScheduledJob recoverScheduledJob() {
+//        RecoverScheduledJob job = new RecoverScheduledJob();
+//        job.setTransactionRecovery(transactionRecovery());
+//        job.setTransactionConfigurator(transactionConfigurator());
+//        job.setScheduler(recoverScheduler().getScheduler());
+//        job.init();
+//        return job;
+//    }
+//
+//    @Bean
+//    public SchedulerFactoryBean recoverScheduler() {
+//        return new SchedulerFactoryBean();
+//    }
+//
+//    @Bean
+//    public TransactionRecovery transactionRecovery() {
+//        TransactionRecovery recovery = new TransactionRecovery();
+//        recovery.setTransactionConfigurator(transactionConfigurator());
+//        return recovery;
+//    }
+//
+//    @Bean
+//    public ConfigurableCoordinatorAspect resourceCoordinatorAspect() {
+//        ConfigurableCoordinatorAspect aspect = new ConfigurableCoordinatorAspect();
+//        aspect.setTransactionConfigurator(transactionConfigurator());
+//        aspect.init();
+//        return aspect;
+//    }
+//
+//    @Bean
+//    public ConfigurableTransactionAspect compensableTransactionAspect() {
+//        ConfigurableTransactionAspect aspect = new ConfigurableTransactionAspect();
+//        aspect.setTransactionConfigurator(transactionConfigurator());
+//        aspect.init();
+//        return aspect;
+//    }
+//
+//    @Bean
+//    public SpringBeanFactory springBeanFactory() {
+//        return new SpringBeanFactory();
+//    }
+//
+//    @Bean
+//    public SpringTransactionConfigurator transactionConfigurator() {
+//        SpringTransactionConfigurator configurator = new SpringTransactionConfigurator();
+//        configurator.init();
+//        return configurator;
+//    }
 }

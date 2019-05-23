@@ -26,4 +26,8 @@ public interface IOrderService extends IBaseService<Order, String> {
      * @param money   成功支付金额
      */
     void tryPaySuccess(String orderId, BigDecimal money);
+
+    void confirmPaySuccess(String orderId, BigDecimal money);
+
+    void cancelPaySuccess(String orderId, BigDecimal money);
 }

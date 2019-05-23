@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.mengyun.tcctransaction.api.Compensable;
+import org.mengyun.tcctransaction.api.Propagation;
 import org.mengyun.tcctransaction.api.TransactionContext;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,14 +62,16 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderMapper, Order, String
         accountService.tryAddMoney(null, order.getAccountId(), orderId, money);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void confirmPaySuccess(TransactionContext context, String orderId, BigDecimal money) {
+    public void confirmPaySuccess(String orderId, BigDecimal money) {
         log.info("【订单】confirmPaySuccess, orderId={}", orderId);
 
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void cancelPaySuccess(TransactionContext context, String orderId, BigDecimal money) {
+    public void cancelPaySuccess(String orderId, BigDecimal money) {
         log.info("【订单】cancelPaySuccess, orderId={}", orderId);
 
     }
