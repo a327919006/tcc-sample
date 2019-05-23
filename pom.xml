@@ -170,23 +170,6 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
-            <!-- tcc-transaction -->
-            <dependency>
-                <groupId>org.mengyun</groupId>
-                <artifactId>tcc-transaction-api</artifactId>
-                <version>${tcc-transaction.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mengyun</groupId>
-                <artifactId>tcc-transaction-spring</artifactId>
-                <version>${tcc-transaction.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mengyun</groupId>
-                <artifactId>tcc-transaction-dubbo</artifactId>
-                <version>${tcc-transaction.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

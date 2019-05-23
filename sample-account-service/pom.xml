@@ -54,15 +54,6 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.mengyun</groupId>
-            <artifactId>tcc-transaction-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mengyun</groupId>
-            <artifactId>tcc-transaction-dubbo</artifactId>
-        </dependency>
-
         <!-- modules -->
         <dependency>
             <groupId>com.gitee.nuliing</groupId>
