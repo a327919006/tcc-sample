@@ -5,6 +5,11 @@ import com.cn.sample.api.model.po.Order;
 import com.cn.sample.api.model.service.IAccountService;
 import com.cn.sample.api.model.service.IOrderService;
 import com.cn.sample.dal.mapper.OrderMapper;
+import io.seata.core.context.RootContext;
+import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
@@ -46,29 +51,31 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderMapper, Order, String
     }
 
     @Override
-    public void tryPaySuccess(String orderId, BigDecimal money) {
-        log.info("【订单】tryPaySuccess, orderId={}", orderId);
-        Order order = mapper.selectByPrimaryKey(orderId);
+    @TwoPhaseBusinessAction(name = "tryPaySuccess",
+            commitMethod = "confirmPaySuccess",
+            rollbackMethod = "cancelPaySuccess")
+    public boolean prepare(BusinessActionContext actionContext) {
+        log.info("【订单】tryPaySuccess");
+//        Order order = mapper.selectByPrimaryKey(orderId);
+//
+//        if (order == null || order.getStatus() != OrderStatusEnum.WAIT.getValue()) {
+//            log.info("【订单】该订单已处理, orderId={}", orderId);
+//            throw new RuntimeException("该订单已处理");
+//        }
 
-        if (order == null || order.getStatus() != OrderStatusEnum.WAIT.getValue()) {
-            log.info("【订单】该订单已处理, orderId={}", orderId);
-            return;
-        }
-
-        accountService.tryAddMoney(order.getAccountId(), orderId, money);
+//        accountService.tryAddMoney(actionContext, order.getAccountId(), orderId, money);
+        return true;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void confirmPaySuccess(String orderId, BigDecimal money) {
-        log.info("【订单】confirmPaySuccess, orderId={}", orderId);
-
+    public boolean commit(BusinessActionContext actionContext) {
+        log.info("【订单】confirmPaySuccess");
+        return true;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void cancelPaySuccess(String orderId, BigDecimal money) {
-        log.info("【订单】cancelPaySuccess, orderId={}", orderId);
-
+    public boolean rollback(BusinessActionContext actionContext) {
+        log.info("【订单】cancelPaySuccess");
+        return true;
     }
 }

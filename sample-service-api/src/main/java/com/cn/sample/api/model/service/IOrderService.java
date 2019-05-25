@@ -1,6 +1,9 @@
 package com.cn.sample.api.model.service;
 
 import com.cn.sample.api.model.po.Order;
+import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 
 import java.math.BigDecimal;
 
@@ -22,12 +25,13 @@ public interface IOrderService extends IBaseService<Order, String> {
     /**
      * TCC-模拟银行回调-支付成功
      *
-     * @param orderId 订单ID
-     * @param money   成功支付金额
      */
-    void tryPaySuccess(String orderId, BigDecimal money);
+    @TwoPhaseBusinessAction(name = "tryPaySuccess",
+            commitMethod = "commit",
+            rollbackMethod = "rollback")
+    boolean prepare(BusinessActionContext actionContext);
 
-    void confirmPaySuccess(String orderId, BigDecimal money);
+    boolean commit(BusinessActionContext actionContext);
 
-    void cancelPaySuccess(String orderId, BigDecimal money);
+    boolean rollback(BusinessActionContext actionContext);
 }

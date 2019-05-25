@@ -1,6 +1,9 @@
 package com.cn.sample.api.model.service;
 
 import com.cn.sample.api.model.po.Account;
+import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 
 import java.math.BigDecimal;
 
@@ -27,9 +30,15 @@ public interface IAccountService extends IBaseService<Account, String> {
      * @param orderId   订单ID
      * @param money     金额
      */
-    void tryAddMoney(String accountId, String orderId, BigDecimal money);
+    @TwoPhaseBusinessAction(name = "tryAddMoney",
+            commitMethod = "confirmAddMoney",
+            rollbackMethod = "cancelAddMoney")
+    void tryAddMoney(BusinessActionContext actionContext,
+                     @BusinessActionContextParameter(paramName = "accountId")String accountId,
+                     @BusinessActionContextParameter(paramName = "orderId")String orderId,
+                     @BusinessActionContextParameter(paramName = "money")BigDecimal money);
 
-    void confirmAddMoney(String accountId, String orderId, BigDecimal money);
+    void confirmAddMoney(BusinessActionContext actionContext);
 
-    void cancelAddMoney(String accountId, String orderId, BigDecimal money);
+    void cancelAddMoney(BusinessActionContext actionContext);
 }

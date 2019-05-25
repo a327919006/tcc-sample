@@ -4,10 +4,12 @@ import cn.hutool.core.util.IdUtil;
 import com.cn.sample.api.enums.OrderStatusEnum;
 import com.cn.sample.api.model.po.Order;
 import com.cn.sample.api.model.service.IOrderService;
+import com.cn.sample.app.service.BusinessService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,8 @@ public class TestController {
 
     @Reference
     private IOrderService orderService;
+    @Autowired
+    private BusinessService businessService;
 
     @ApiOperation("测试业务，无TCC")
     @GetMapping
@@ -63,17 +67,7 @@ public class TestController {
     public Object testTcc() {
         log.info("【test】测试TCC");
 
-        BigDecimal money = new BigDecimal(0.98);
-        Order order = new Order();
-        order.setOrderId(IdUtil.simpleUUID());
-        order.setAccountId("1");
-        order.setMoney(money);
-        order.setStatus(OrderStatusEnum.WAIT.getValue());
-        order.setCreateTime(LocalDateTime.now());
-        order.setUpdateTime(LocalDateTime.now());
-        orderService.insertSelective(order);
-
-        orderService.tryPaySuccess(order.getOrderId(), money);
+        businessService.paySuccess();
 
         log.info("【test】测试TCC成功");
         Map<String, Object> rsp = new HashMap<>();

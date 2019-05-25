@@ -7,6 +7,9 @@ import com.cn.sample.api.model.po.AccountBill;
 import com.cn.sample.api.model.service.IAccountBillService;
 import com.cn.sample.api.model.service.IAccountService;
 import com.cn.sample.dal.mapper.AccountMapper;
+import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
@@ -58,20 +61,29 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account, 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void tryAddMoney(String accountId, String orderId, BigDecimal money) {
+    @TwoPhaseBusinessAction(name = "tryAddMoney",
+            commitMethod = "confirmAddMoney",
+            rollbackMethod = "cancelAddMoney")
+    public void tryAddMoney(BusinessActionContext actionContext,
+                     @BusinessActionContextParameter(paramName = "accountId")String accountId,
+                     @BusinessActionContextParameter(paramName = "orderId")String orderId,
+                     @BusinessActionContextParameter(paramName = "money")BigDecimal money){
         log.info("【账户】tryAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void confirmAddMoney(String accountId, String orderId, BigDecimal money) {
+    public void confirmAddMoney(BusinessActionContext actionContext) {
+        String accountId = (String) actionContext.getActionContext("accountId");
+        String orderId = (String) actionContext.getActionContext("orderId");
+        BigDecimal money = (BigDecimal) actionContext.getActionContext("money");
         log.info("【账户】confirmAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void cancelAddMoney(String accountId, String orderId, BigDecimal money) {
+    public void cancelAddMoney(BusinessActionContext actionContext) {
+        String accountId = (String) actionContext.getActionContext("accountId");
+        String orderId = (String) actionContext.getActionContext("orderId");
+        BigDecimal money = (BigDecimal) actionContext.getActionContext("money");
         log.info("【账户】cancelAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }
 }

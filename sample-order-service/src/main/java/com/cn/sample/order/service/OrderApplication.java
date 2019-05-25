@@ -16,7 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@EnableScheduling
 @MapperScan("com.cn.sample.dal.mapper")
 @ComponentScan(basePackages = {
-        "com.cn.sample.dal.mapper"
+        "com.cn.sample.dal.mapper",
+        "com.cn.sample.order.service.config"
 })
 public class OrderApplication {
     public static void main(String[] args) {
