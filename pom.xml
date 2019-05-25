@@ -38,7 +38,7 @@
         <hutool.version>4.5.3</hutool.version>
 
         <!--json-->
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.9.9</jackson.version>
 
         <!--dubbo-->
         <dubbo.version>2.7.0</dubbo.version>
