@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.mengyun.tcctransaction.api.Compensable;
-import org.mengyun.tcctransaction.api.Propagation;
-import org.mengyun.tcctransaction.api.TransactionContext;
+import org.mengyun.tcctransaction.dubbo.context.DubboTransactionContextEditor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -49,7 +48,7 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderMapper, Order, String
     }
 
     @Override
-    @Compensable(confirmMethod = "confirmPaySuccess", cancelMethod = "cancelPaySuccess")
+    @Compensable(confirmMethod = "confirmPaySuccess", cancelMethod = "cancelPaySuccess", transactionContextEditor = DubboTransactionContextEditor.class)
     public void tryPaySuccess(String orderId, BigDecimal money) {
         log.info("【订单】tryPaySuccess, orderId={}", orderId);
         Order order = mapper.selectByPrimaryKey(orderId);

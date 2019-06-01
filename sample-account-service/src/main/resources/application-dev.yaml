@@ -24,3 +24,5 @@ dubbo:
     base-packages: com.cn.sample.account.service.impl
   consumer:
     check: false
+  provider:
+    proxy: tccJavassist

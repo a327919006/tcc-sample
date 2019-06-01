@@ -63,7 +63,7 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account, 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Compensable(confirmMethod = "confirmAddMoney", cancelMethod = "cancelAddMoney")
+    @Compensable(confirmMethod = "confirmAddMoney", cancelMethod = "cancelAddMoney", transactionContextEditor = DubboTransactionContextEditor.class)
     public void tryAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money) {
         log.info("【账户】tryAddMoney, accountId={}, orderId={}, money={}", accountId, orderId, money);
     }

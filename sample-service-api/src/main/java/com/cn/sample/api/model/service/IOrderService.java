@@ -1,6 +1,7 @@
 package com.cn.sample.api.model.service;
 
 import com.cn.sample.api.model.po.Order;
+import org.mengyun.tcctransaction.api.Compensable;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,7 @@
 package com.cn.sample.api.model.service;
 
 import com.cn.sample.api.model.po.Account;
+import org.mengyun.tcctransaction.api.Compensable;
 import org.mengyun.tcctransaction.api.TransactionContext;
 
 import java.math.BigDecimal;
@@ -28,6 +29,7 @@ public interface IAccountService extends IBaseService<Account, String> {
      * @param orderId   订单ID
      * @param money     金额
      */
+    @Compensable
     void tryAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money);
 
     void confirmAddMoney(TransactionContext transactionContext, String accountId, String orderId, BigDecimal money);
