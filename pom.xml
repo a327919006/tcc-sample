@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gitee.nuliing</groupId>
+    <groupId>com.cn.tcc</groupId>
     <artifactId>tcc-sample</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
@@ -166,6 +166,18 @@
                 <groupId>org.mengyun</groupId>
                 <artifactId>tcc-transaction-dubbo</artifactId>
                 <version>${tcc-transaction.version}</version>
+            </dependency>
+
+            <!--model-->
+            <dependency>
+                <groupId>com.cn.tcc</groupId>
+                <artifactId>sample-service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cn.tcc</groupId>
+                <artifactId>sample-dal</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
