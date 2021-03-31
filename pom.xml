@@ -41,7 +41,7 @@
         <dubbo.version>2.7.0</dubbo.version>
 
         <!--guava-->
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
 
         <!--tcc-transaction-->
         <tcc-transaction.version>1.2.6</tcc-transaction.version>
